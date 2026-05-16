@@ -83,6 +83,35 @@ let pendingStoryStart = null;
 let activeSceneBackground = "";
 let backgroundSwapTimeoutId = null;
 
+/* --- SFX SYSTEM (Web Audio API) --- */
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function playTone(freq, type, duration, vol) {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  
+  gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+  
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + duration);
+}
+
+function playHoverSound() {
+  playTone(600, 'sine', 0.04, 0.005);
+}
+
+document.body.addEventListener("mouseover", (e) => {
+  if (e.target.tagName === "BUTTON" || e.target.closest("button") || e.target.closest(".character-entry.is-clickable")) {
+    playHoverSound();
+  }
+});
+
 let state = {
   sceneId: INITIAL_SCENE_ID,
   lineIndex: 0,
@@ -103,7 +132,9 @@ let state = {
   incidentGameCompleted: false,
   unlocked: loadUnlockedCharacters(),
   introTimeoutId: null,
-  questionAdvanceTimeoutId: null
+  questionAdvanceTimeoutId: null,
+  typewriterIntervalId: null,
+  typewriterFinishHandler: null
 };
 
 function loadUnlockedCharacters() {
@@ -152,6 +183,38 @@ function clearQuestionAdvanceTimeout() {
 
   window.clearTimeout(state.questionAdvanceTimeoutId);
   state.questionAdvanceTimeoutId = null;
+}
+
+function clearTypewriter() {
+  if (state.typewriterIntervalId) {
+    window.clearInterval(state.typewriterIntervalId);
+    state.typewriterIntervalId = null;
+  }
+  state.typewriterFinishHandler = null;
+  if (dialogueText) {
+    dialogueText.classList.remove("is-typing");
+  }
+}
+
+function renderTypewriter(element, text) {
+  clearTypewriter();
+  element.textContent = "";
+  element.classList.add("is-typing");
+  let i = 0;
+  
+  state.typewriterFinishHandler = () => {
+    clearTypewriter();
+    element.textContent = text;
+  };
+  
+  state.typewriterIntervalId = window.setInterval(() => {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+    } else {
+      clearTypewriter();
+    }
+  }, 20);
 }
 
 function updateStartButtonLabel() {
@@ -282,6 +345,32 @@ function animateSceneRefresh() {
   dialogueBox.classList.add("is-refreshing");
 }
 
+function applyTiltEffect(element) {
+  if (prefersReducedMotion.matches || !finePointer.matches) {
+    return;
+  }
+
+  element.addEventListener('mousemove', (e) => {
+    const rect = element.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    // Calculate rotation: max 8 degrees
+    const rotateX = ((y - centerY) / centerY) * -8;
+    const rotateY = ((x - centerX) / centerX) * 8;
+    
+    element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    element.style.transition = 'transform 0.1s ease-out';
+  });
+
+  element.addEventListener('mouseleave', () => {
+    element.style.transform = '';
+    element.style.transition = 'transform 0.5s ease-out';
+  });
+}
+
 function initializeParallax(container, layers) {
   if (!container || prefersReducedMotion.matches || !finePointer.matches) {
     return;
@@ -362,6 +451,7 @@ function resetStateToStart() {
   state.incidentGameLocked = false;
   state.incidentGameCompleted = false;
   clearQuestionAdvanceTimeout();
+  clearTypewriter();
 }
 
 function showMenu() {
@@ -531,7 +621,16 @@ function renderScene() {
   chapterLabel.textContent = scene.chapter;
   sceneCaption.textContent = sceneVisualState.location;
   speakerName.textContent = isNarration ? "Сцена" : speaker.name;
-  dialogueText.textContent = line.type === "question" ? line.prompt : (line.text || "");
+  
+  const fullText = line.type === "question" ? line.prompt : (line.text || "");
+  
+  if (line.type === "question" && state.questionFeedbackType !== null) {
+    clearTypewriter();
+    dialogueText.textContent = fullText;
+  } else {
+    renderTypewriter(dialogueText, fullText);
+  }
+  
   dialogueBox.classList.toggle("is-narration", isNarration);
   dialogueBox.classList.toggle("hidden", isTest || isPopup || isIncidentGame);
 
@@ -1084,6 +1183,11 @@ function handleQuestionAnswer(selectedIndex) {
 }
 
 function nextLine() {
+  if (state.typewriterIntervalId && state.typewriterFinishHandler) {
+    state.typewriterFinishHandler();
+    return;
+  }
+
   const scene = story[state.sceneId];
   const line = scene.lines[state.lineIndex];
 
@@ -1162,6 +1266,7 @@ function renderCharacterCodex() {
       });
     }
 
+    applyTiltEffect(card);
     characterGrid.appendChild(card);
   });
 }
@@ -1202,6 +1307,7 @@ function renderChapterMenu() {
       card.querySelector(".chapter-open-button").addEventListener("click", () => startChapter(entry.sceneId));
     }
 
+    applyTiltEffect(card);
     chaptersGrid.appendChild(card);
   });
 }
@@ -1375,3 +1481,70 @@ menuScreen.classList.add("is-entering");
 window.setTimeout(() => {
   menuScreen.classList.remove("is-entering");
 }, SCREEN_ENTER_DURATION);
+
+// Cursor particle system
+(function initCursorParticles() {
+  if (prefersReducedMotion.matches || !finePointer.matches) return;
+
+  const canvas = document.createElement("canvas");
+  canvas.style.cssText = "position:fixed;inset:0;z-index:9999;pointer-events:none;";
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext("2d");
+
+  let mouseX = -100, mouseY = -100;
+  const particles = [];
+  const MAX_PARTICLES = 40;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    if (particles.length < MAX_PARTICLES) {
+      particles.push({
+        x: mouseX + (Math.random() - 0.5) * 24,
+        y: mouseY + (Math.random() - 0.5) * 24,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5 - 0.3,
+        life: 1,
+        decay: 0.008 + Math.random() * 0.008,
+        size: 1.5 + Math.random() * 2.5
+      });
+    }
+  });
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= p.decay;
+
+      if (p.life <= 0) {
+        particles.splice(i, 1);
+        continue;
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, 240, 255, ${p.life * 0.6})`;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * p.life * 0.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${p.life * 0.4})`;
+      ctx.fill();
+    }
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
