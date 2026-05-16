@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aegis Protocol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div class="background-glow background-glow-left"></div>
+    <div class="background-glow background-glow-right"></div>
+
+    <main class="novel-app">
+      <section class="menu-screen screen" id="menu-screen">
+        <div class="menu-backdrop" id="menu-backdrop"></div>
+        <div class="menu-overlay"></div>
+
+        <div class="menu-hero" id="menu-hero">
+          <div class="hud-chip">Institute Aegis</div>
+          <h1>ГЛАВНОЕ МЕНЮ</h1>
+          <p class="menu-subtitle">
+            Закрытая академия, цифровые интриги и выбор, который меняет ход истории.
+          </p>
+
+          <div class="menu-actions">
+            <button class="menu-button primary-button" id="start-button">ИГРАТЬ</button>
+            <button class="menu-button secondary-button" id="menu-chapters-button">ГЛАВЫ</button>
+            <button class="menu-button secondary-button" id="menu-characters-button">ПЕРСОНАЖИ</button>
+            <button class="menu-button secondary-button" id="reset-progress-button">СБРОС ПРОГРЕССА</button>
+            <button class="menu-button ghost-button" id="exit-button">ВЫХОД</button>
+          </div>
+
+          <div class="menu-emblem" aria-hidden="true">
+            <div class="emblem-core">
+              <span class="emblem-lock"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="game-screen screen hidden" id="game-screen">
+        <header class="top-bar">
+          <div>
+            <div class="hud-chip">Institute Aegis</div>
+            <div class="chapter-label" id="chapter-label">Пролог</div>
+          </div>
+          <button class="secondary-button" id="pause-button">Пауза</button>
+        </header>
+
+        <section class="scene-stage">
+          <div class="scene-visual" id="scene-visual">
+            <div class="scene-backdrop" id="scene-backdrop"></div>
+            <div class="scene-backdrop scene-backdrop-prev" id="scene-backdrop-prev"></div>
+            <div class="scene-overlay"></div>
+            <div class="scene-character-wrap hidden" id="scene-character-wrap">
+              <img class="scene-character" id="scene-character" alt="Персонаж сцены">
+            </div>
+            <div class="character-intro hidden" id="character-intro">
+              <div class="character-intro-copy">
+                <div class="panel-label">Новый профиль</div>
+                <h3 id="character-intro-name">Имя персонажа</h3>
+                <p id="character-intro-role">Роль персонажа</p>
+              </div>
+              <div class="character-intro-card">
+                <img id="character-intro-image" alt="Карточка персонажа">
+              </div>
+            </div>
+            <div class="test-panel hidden" id="test-panel"></div>
+            <div class="story-popup hidden" id="story-popup"></div>
+            <div class="scene-caption" id="scene-caption">Ночная академия Aegis</div>
+          </div>
+
+          <section class="dialogue-box">
+            <div class="dialogue-topline">
+              <div class="speaker-name" id="speaker-name">Система Aegis</div>
+              <button class="tiny-button" id="in-game-characters-button">Персонажи</button>
+            </div>
+
+            <p class="dialogue-text" id="dialogue-text"></p>
+            <p class="choice-feedback hidden" id="choice-feedback"></p>
+            <div class="choices hidden" id="choices"></div>
+
+            <div class="controls">
+              <button class="primary-button" id="next-button">Далее</button>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <div class="overlay hidden" id="characters-overlay">
+      <div class="modal codex-modal">
+        <div class="modal-header">
+          <div>
+            <p class="panel-label">База данных</p>
+            <h2>Персонажи</h2>
+          </div>
+          <button class="secondary-button" id="close-characters-button">Закрыть</button>
+        </div>
+
+        <div class="character-grid" id="character-grid"></div>
+      </div>
+    </div>
+
+    <div class="overlay hidden" id="chapters-overlay">
+      <div class="modal chapters-modal">
+        <div class="chapters-shell">
+          <header class="chapters-header">
+            <div class="chapters-brand">
+              <div class="chapters-brandmark" aria-hidden="true">
+                <div class="emblem-core">
+                  <span class="emblem-lock"></span>
+                </div>
+              </div>
+              <div class="chapters-brandcopy">
+                <span>Institute</span>
+                <span>Aegis</span>
+              </div>
+            </div>
+
+            <div class="chapters-heading">
+              <p class="panel-label">Навигация</p>
+              <h2>Выбор главы</h2>
+              <p class="chapters-subtitle">Каждая глава приближает тебя к пониманию системы.</p>
+            </div>
+          </header>
+
+          <div class="chapters-grid" id="chapters-grid"></div>
+
+          <footer class="chapters-footer">
+            <button class="ghost-button chapters-back-button" id="close-chapters-button">Назад</button>
+            <p class="chapters-note">Выбирай главы по порядку.</p>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay hidden" id="disclaimer-overlay">
+      <div class="modal disclaimer-modal">
+        <div class="panel-label">Предупреждение</div>
+        <h2>Дисклеймер</h2>
+        <p>
+          Все совпадения с реальными личностями, организациями и событиями в игре абсолютно случайны.
+          История, персонажи и ситуации являются художественным вымыслом.
+        </p>
+        <button class="primary-button" id="disclaimer-next-button">Далее</button>
+      </div>
+    </div>
+
+    <div class="overlay hidden" id="pause-overlay">
+      <div class="modal pause-modal">
+        <div class="modal-header">
+          <div>
+            <p class="panel-label">Пауза</p>
+            <h2>Игра остановлена</h2>
+          </div>
+        </div>
+
+        <div class="pause-actions">
+          <button class="primary-button" id="resume-button">Продолжить</button>
+          <button class="secondary-button" id="pause-characters-button">Персонажи</button>
+          <button class="secondary-button" id="pause-reset-button">Сброс прогресса</button>
+          <button class="ghost-button" id="back-to-menu-button">В главное меню</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay hidden" id="character-detail-overlay">
+      <div class="character-detail-panel">
+        <button class="secondary-button character-detail-close" id="close-character-detail-button">Закрыть</button>
+
+        <div class="character-detail-visual" id="character-detail-visual">
+          <div class="character-detail-backdrop" id="character-detail-backdrop"></div>
+          <img class="character-detail-image" id="character-detail-image" alt="Карточка персонажа">
+        </div>
+
+        <div class="character-detail-copy">
+          <div class="panel-label" id="character-detail-status">Профиль открыт</div>
+          <h2 id="character-detail-name">Имя персонажа</h2>
+          <p class="character-detail-role" id="character-detail-role">Роль</p>
+          <p class="character-detail-bio" id="character-detail-bio">Описание персонажа</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-splash hidden" id="chapter-splash">
+      <div class="chapter-splash-inner">
+        <div class="panel-label" id="chapter-splash-number">Глава 1</div>
+        <h2 id="chapter-splash-title">Пролог</h2>
+        <p id="chapter-splash-subtitle">Продолжаем историю</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="app-story.js"></script>
+  <script src="app-runtime.js"></script>
+</body>
+</html>
