@@ -267,6 +267,8 @@ const story = {
         title: "Цепочка доверия",
         subtitle: "Локализуй атаку по шагам: найди слабое звено, изолируй угрозу и удержи контроль над сетью.",
         threatStart: 58,
+        threatBranchThreshold: 50,
+        failNext: "chapter-3-incident-low",
         progressLabel: "Шаг",
         questions: [
           {
@@ -496,6 +498,268 @@ const story = {
         speaker: "kiraMorgan",
         sceneCharacter: "kiraMorgan",
         text: "Пошли. У нас теперь настоящая работа."
+      }
+    ],
+    choices: [
+      { label: "Вернуться в главное меню", action: "menu" }
+    ]
+  },
+  "chapter-3-incident-low": {
+    chapter: "Инцидент",
+    chapterNumber: 3,
+    location: "Оперативный зал Aegis • После инцидента",
+    background: "assets/backgrounds/chapter-3-incident-may14.png",
+    defaultCharacter: "hero",
+    backgroundPosition: "center 32%",
+    backgroundSize: "cover",
+    lines: [
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Красные предупреждения на экранах постепенно исчезают. В зале становится тихо."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Егор смотрит на карту сети. Несколько узлов всё ещё отмечены как скомпрометированные."
+      },
+      {
+        speaker: "robert",
+        sceneCharacter: "robert",
+        text: "Он успел пройти глубже, чем должен был."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Пауза."
+      },
+      {
+        speaker: "kiraMorgan",
+        sceneCharacter: "kiraMorgan",
+        text: "Мы потеряли слишком много времени на неверные решения."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Егор молчит."
+      },
+      {
+        speaker: "wolf",
+        sceneCharacter: "wolf",
+        text: "Отчёт."
+      },
+      {
+        speaker: "robert",
+        sceneCharacter: "robert",
+        text: "Часть внутренних логов скомпрометирована. Несколько узлов пришлось отключить полностью."
+      },
+      {
+        speaker: "kiraMorgan",
+        sceneCharacter: "kiraMorgan",
+        text: "А Мавро получил достаточно времени, чтобы проверить архитектуру сети."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "wolf",
+        narration: true,
+        text: "Вульф переводит взгляд на Егора."
+      },
+      {
+        speaker: "wolf",
+        sceneCharacter: "wolf",
+        text: "Ты понимаешь, где ошибся?"
+      },
+      {
+        speaker: "hero",
+        sceneCharacter: "hero",
+        text: "Да."
+      },
+      {
+        speaker: "wolf",
+        sceneCharacter: "wolf",
+        text: "Тогда скажи."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Пауза."
+      },
+      {
+        speaker: "hero",
+        sceneCharacter: "hero",
+        text: "Я слишком долго сомневался. И реагировал уже после того, как проблема начала распространяться."
+      },
+      {
+        speaker: "robert",
+        sceneCharacter: "robert",
+        text: "В сетевой безопасности опоздание иногда опаснее самой ошибки."
+      },
+      {
+        speaker: "kiraMorgan",
+        sceneCharacter: "kiraMorgan",
+        text: "Потому что угроза не ждёт, пока ты почувствуешь уверенность."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Егор опускает взгляд."
+      },
+      {
+        speaker: "hero",
+        sceneCharacter: "hero",
+        text: "Я понял."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Пауза."
+      },
+      {
+        speaker: "robert",
+        sceneCharacter: "robert",
+        text: "Нет. Пока только начинаешь понимать."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Тишина."
+      },
+      {
+        speaker: "kiraMorgan",
+        sceneCharacter: "kiraMorgan",
+        text: "Если честно… я ожидала результат лучше."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Егор поднимает взгляд."
+      },
+      {
+        speaker: "kiraMorgan",
+        sceneCharacter: "kiraMorgan",
+        text: "После тестирования казалось, что ты быстрее адаптируешься к давлению."
+      },
+      {
+        speaker: "robert",
+        sceneCharacter: "robert",
+        text: "Ты думаешь как обычный пользователь. Не как человек, который должен защищать систему."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Пауза."
+      },
+      {
+        speaker: "hero",
+        sceneCharacter: "hero",
+        text: "То есть я всё испортил?"
+      },
+      {
+        speaker: "wolf",
+        sceneCharacter: "wolf",
+        text: "Нет."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Все замолкают."
+      },
+      {
+        speaker: "wolf",
+        sceneCharacter: "wolf",
+        text: "Если бы одна ошибка означала конец — никто бы не учился этой работе."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "wolf",
+        narration: true,
+        text: "Вульф подходит ближе к центральному экрану."
+      },
+      {
+        speaker: "wolf",
+        sceneCharacter: "wolf",
+        text: "Но интернет-безопасность — это не теория. Твои ошибки всегда стоят кому-то времени, доступа или данных."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hacker",
+        narration: true,
+        text: "На экране внезапно снова появляется сообщение Мавро."
+      },
+      {
+        speaker: "hacker",
+        sceneCharacter: "hacker",
+        text: "Вот теперь он начинает понимать."
+      },
+      {
+        speaker: "hacker",
+        sceneCharacter: "hacker",
+        text: "Страшно не то, что систему можно взломать."
+      },
+      {
+        speaker: "hacker",
+        sceneCharacter: "hacker",
+        text: "Страшно то, как медленно люди замечают, что уже впустили тебя внутрь."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Экран гаснет."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Тишина."
+      },
+      {
+        speaker: "kiraMorgan",
+        sceneCharacter: "kiraMorgan",
+        text: "Он специально давит."
+      },
+      {
+        speaker: "robert",
+        sceneCharacter: "robert",
+        text: "Потому что знает — сомнения мешают быстрее, чем страх."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Егор смотрит на погасший экран."
+      },
+      {
+        speaker: "hero",
+        sceneCharacter: "hero",
+        text: "Тогда в следующий раз я не дам ему времени."
+      },
+      {
+        speaker: "narrator",
+        sceneCharacter: "hero",
+        narration: true,
+        text: "Пауза."
+      },
+      {
+        speaker: "wolf",
+        sceneCharacter: "wolf",
+        text: "Хорошо."
+      },
+      {
+        speaker: "wolf",
+        sceneCharacter: "wolf",
+        text: "Потому что следующий раз будет."
       }
     ],
     choices: [
@@ -1355,8 +1619,8 @@ const story = {
         speaker: "narrator",
         sceneCharacter: "teacher",
         narration: true,
-        background: "assets/backgrounds/chapter-2-testing-auditorium.png",
-        backgroundPosition: "center 36%",
+        background: "assets/backgrounds/chapter-2-briefing-2100.png",
+        backgroundPosition: "center center",
         backgroundSize: "cover",
         location: "Аудитория Aegis",
         text: "В аудитории остаётся тихий шум, но напряжение уже спадает."

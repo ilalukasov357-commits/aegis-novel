@@ -852,6 +852,16 @@ function continueIncidentGame() {
 
 function advanceAfterIncidentGame() {
   const scene = story[state.sceneId];
+  const line = scene.lines[state.lineIndex];
+  const threshold = Number.isFinite(line?.threatBranchThreshold)
+    ? Number(line.threatBranchThreshold)
+    : 50;
+  const failNext = typeof line?.failNext === "string" ? line.failNext : null;
+
+  if (failNext && state.incidentGameThreat > threshold && story[failNext]) {
+    setScene(failNext);
+    return;
+  }
 
   if (state.lineIndex >= scene.lines.length - 1) {
     return;
