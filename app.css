@@ -2149,42 +2149,50 @@ img {
   .app-shell {
     padding: 0;
     overflow-x: hidden;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
   }
 
   .novel-app {
     width: 100%;
-    height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
+    height: 100%;
     overflow: hidden;
+    position: relative;
   }
 
   .screen {
+    position: absolute;
+    inset: 0;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 20px 16px;
+    padding: 16px;
+    -webkit-overflow-scrolling: touch;
   }
 
   .menu-screen {
-    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 40px;
   }
 
   .game-screen {
     padding: 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
   .scene-stage {
     display: flex;
     flex-direction: column;
     height: 100%;
-    min-height: 100%;
   }
 
   .scene-visual {
     flex: 1;
-    min-height: 280px;
+    min-height: 240px;
     border: none;
     border-radius: 0;
   }
@@ -2194,20 +2202,26 @@ img {
     border-radius: 0;
     border: none;
     border-top: 1px solid var(--line);
-    padding: 16px 16px 30px;
-    background: rgba(4, 11, 23, 0.95);
+    padding: 16px 16px 24px;
+    background: rgba(4, 11, 23, 0.98);
+    flex-shrink: 0;
   }
 
   .menu-hero {
     width: 100%;
-    padding: 20px;
-    background: rgba(4, 11, 23, 0.6);
-    backdrop-filter: blur(10px);
+    padding: 24px 20px;
+    background: rgba(4, 11, 23, 0.8);
+    backdrop-filter: blur(12px);
     border: 1px solid var(--line);
   }
 
   .menu-hero h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
+  }
+
+  .overlay {
+    background: rgba(2, 6, 12, 0.95);
+    backdrop-filter: blur(8px);
   }
 
   .chapters-modal, .codex-modal {
@@ -2219,36 +2233,44 @@ img {
     max-height: none;
     border-radius: 0;
     clip-path: none;
-    padding: 20px 16px;
+    padding: 24px 16px;
     overflow-y: auto !important;
-    background: var(--bg);
-    z-index: 9999;
+    background: #02060c;
+    z-index: 10000;
   }
 
   .chapters-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 20px;
+    padding-bottom: 40px;
   }
 
   .chapter-card {
-    min-height: auto;
+    min-height: 400px; /* Fixed height for mobile to prevent collapse */
+    height: 400px;
+  }
+
+  .chapter-card h3 {
+    font-size: 1.6rem;
   }
 
   .character-grid {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding: 0;
+    gap: 20px;
+    padding: 0 0 40px 0;
+    margin: 0;
     overflow: visible;
   }
 
   .character-entry {
     flex: 0 0 auto;
     width: 100%;
+    min-height: 180px;
   }
 
   .character-entry img {
-    height: 300px;
+    height: 240px;
     object-fit: cover;
   }
 
@@ -2259,14 +2281,16 @@ img {
     inset: 0;
     border-radius: 0;
     overflow-y: auto;
+    background: var(--bg);
   }
 }
 
 @media (max-width: 480px) {
-  .menu-hero h1 { font-size: 1.8rem; }
-  .dialogue-text { font-size: 0.95rem; }
+  .menu-hero h1 { font-size: 1.7rem; }
+  .dialogue-text { font-size: 0.95rem; line-height: 1.6; }
   .speaker-name { font-size: 1rem; }
-  .top-bar { padding: 8px 12px; }
+  .top-bar { padding: 10px 12px; }
+  .menu-button { min-height: 52px; font-size: 0.9rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
