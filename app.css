@@ -2146,6 +2146,7 @@ img {
 }
 
 @media (max-width: 980px) {
+  /* ─── Shell & Layout ──────────────────────────────── */
   .app-shell {
     padding: 0;
     overflow-x: hidden;
@@ -2166,67 +2167,116 @@ img {
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 16px;
+    padding: 0;
     -webkit-overflow-scrolling: touch;
   }
 
+  /* ─── Menu Screen ─────────────────────────────────── */
   .menu-screen {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-top: 40px;
+    padding: 24px 16px;
+    min-height: 100%;
   }
 
   .menu-hero {
     width: 100%;
+    min-height: auto;
     padding: 24px 20px;
-    background: rgba(4, 11, 23, 0.8);
+    background: rgba(4, 11, 23, 0.85);
     backdrop-filter: blur(12px);
     border: 1px solid var(--line);
     clip-path: none;
+    border-radius: 0;
     margin: 0;
+    align-self: auto;
   }
 
   .menu-hero h1 {
-    font-size: 2rem;
+    font-size: 2.2rem;
+    margin: 16px 0 0;
   }
 
+  .menu-subtitle {
+    max-width: 100%;
+  }
+
+  .menu-actions {
+    width: 100%;
+  }
+
+  .menu-emblem {
+    display: none;
+  }
+
+  /* ─── Game Screen ─────────────────────────────────── */
   .game-screen {
     padding: 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    position: absolute;
+    inset: 0;
   }
 
   .top-bar {
     padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+
+  .top-bar > div {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .hud-chip {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+  }
+
+  .chapter-label {
+    white-space: nowrap;
   }
 
   .scene-stage {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    position: absolute;
+    inset: 0;
+    padding: 0;
   }
 
   .scene-visual {
     flex: 1;
-    min-height: 240px;
+    min-height: 0;
     border: none;
     border-radius: 0;
   }
 
   .scene-character {
-    height: min(80%, 40vh);
+    height: min(75%, 38vh);
   }
 
+  /* Character intro popup — mobile: full-width text only */
   .character-intro {
     right: 16px;
     bottom: 16px;
     left: 16px;
+    flex-direction: column;
+    align-items: stretch;
     transform: translateY(40px);
+    opacity: 0;
   }
 
   .character-intro.is-visible {
+    opacity: 1;
     transform: translateY(0);
   }
 
@@ -2236,35 +2286,70 @@ img {
 
   .character-intro-copy {
     width: 100%;
-    max-width: none;
-    padding: 12px 16px;
+    max-width: 100%;
+    min-width: 0;
+    padding: 14px 16px;
   }
 
+  .character-intro-copy h3 {
+    font-size: 1.2rem;
+  }
+
+  /* ─── Dialogue Box ────────────────────────────────── */
   .dialogue-box {
     width: 100%;
     border-radius: 0;
     border: none;
     border-top: 1px solid var(--line);
-    padding: 16px 16px 24px;
+    padding: 14px 16px 20px;
     background: rgba(4, 11, 23, 0.98);
     flex-shrink: 0;
+    max-height: 52vh;
+    overflow-y: auto;
+  }
+
+  .dialogue-topline {
+    gap: 8px;
+  }
+
+  .speaker-name {
+    font-size: 1.1rem;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dialogue-text {
+    margin: 10px 0 0;
+    min-height: auto;
   }
 
   .choices {
     gap: 8px;
+    margin-top: 10px;
   }
 
   .choice-button {
-    padding: 12px 16px;
-    font-size: 0.9rem;
+    padding: 12px 14px;
+    font-size: 0.88rem;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   }
 
+  .controls {
+    margin-top: 12px;
+  }
+
+  /* ─── Overlays ────────────────────────────────────── */
   .overlay {
     background: rgba(2, 6, 12, 0.95);
     backdrop-filter: blur(8px);
+    overflow-y: auto;
   }
 
-  .chapters-modal, .codex-modal {
+  .chapters-modal,
+  .codex-modal {
     position: fixed;
     inset: 0;
     width: 100vw;
@@ -2273,41 +2358,88 @@ img {
     max-height: none;
     border-radius: 0;
     clip-path: none;
-    padding: 24px 16px;
+    padding: 0;
     overflow-y: auto !important;
     background: #02060c;
     z-index: 10000;
   }
 
+  /* ─── Chapters Screen ─────────────────────────────── */
   .chapters-shell {
-    padding: 16px;
+    padding: 20px 16px 40px;
+    gap: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Stack brand + heading vertically */
+  .chapters-header {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .chapters-brand {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    padding-right: 0;
+    padding-bottom: 16px;
+    min-height: auto;
+  }
+
+  .chapters-heading h2 {
+    font-size: 2.2rem;
+  }
+
+  .chapters-subtitle {
+    font-size: 0.95rem;
   }
 
   .chapters-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
-    padding-bottom: 40px;
+    gap: 16px;
   }
 
   .chapter-card {
     height: auto;
-    min-height: 320px;
-    clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+    min-height: 300px;
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  }
+
+  .chapter-card-topline {
+    inset: 16px 16px auto;
   }
 
   .chapter-card-body {
-    padding: 20px;
+    padding: 16px 20px 20px;
   }
 
   .chapter-card h3 {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
+    margin-top: 10px;
+  }
+
+  .chapter-card p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* ─── Codex / Characters ──────────────────────────── */
+  .codex-modal .modal-header {
+    padding: 20px 16px 0;
+    position: sticky;
+    top: 0;
+    background: #02060c;
+    z-index: 1;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 0;
+    padding-bottom: 16px;
   }
 
   .character-grid {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    padding: 0 0 40px 0;
+    padding: 16px 16px 40px;
     margin: 0;
     overflow: visible;
   }
@@ -2315,24 +2447,33 @@ img {
   .character-entry {
     flex: 0 0 auto;
     width: 100%;
-    height: 380px;
-    clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+    height: 340px;
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
   }
 
   .character-entry img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center top;
   }
 
+  /* ─── Character Detail Panel ──────────────────────── */
   .character-detail-panel {
     grid-template-columns: 1fr;
     width: 100vw;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
     inset: 0;
     border-radius: 0;
     overflow-y: auto;
     background: var(--bg);
     transform: none;
+    opacity: 1;
   }
 
   .character-detail-close {
@@ -2340,11 +2481,13 @@ img {
     right: 16px;
     padding: 8px 12px;
     font-size: 0.8rem;
+    z-index: 10;
   }
 
   .character-detail-visual {
-    min-height: 280px;
-    height: 35vh;
+    min-height: 260px;
+    height: 40vh;
+    max-height: 380px;
     border-right: none;
     border-bottom: 1px solid rgba(0, 240, 255, 0.2);
   }
@@ -2352,26 +2495,59 @@ img {
   .character-detail-image {
     min-height: auto;
     height: 100%;
-    padding: 16px;
+    width: 100%;
+    object-fit: contain;
+    padding: 20px;
   }
 
   .character-detail-copy {
-    padding: 24px 20px;
+    padding: 24px 20px 40px;
+    justify-content: flex-start;
   }
 
   .character-detail-copy h2 {
+    font-size: 1.9rem;
+  }
+
+  /* ─── Pause / Disclaimer Modals ───────────────────── */
+  .pause-modal,
+  .disclaimer-modal {
+    width: calc(100vw - 32px);
+    max-width: 420px;
+    clip-path: none;
+    border-radius: 0;
+  }
+
+  .pause-actions {
+    width: 100%;
+  }
+
+  /* ─── Chapter Splash ──────────────────────────────── */
+  .chapter-splash-inner {
+    width: calc(100vw - 32px);
+    padding: 28px 20px;
+    clip-path: none;
+    border-radius: 0;
+  }
+
+  .chapter-splash-inner h2 {
     font-size: 2rem;
   }
 }
 
+/* ─── Extra Small ──────────────────────────────────── */
 @media (max-width: 480px) {
-  .menu-hero h1 { font-size: 1.7rem; }
-  .dialogue-text { font-size: 0.95rem; line-height: 1.6; }
-  .speaker-name { font-size: 1rem; }
+  .menu-hero h1 { font-size: 1.8rem; }
+  .menu-hero { padding: 20px 16px; }
+  .dialogue-text { font-size: 0.92rem; line-height: 1.6; }
+  .speaker-name { font-size: 0.95rem; }
   .top-bar { padding: 10px 12px; }
-  .menu-button { min-height: 52px; font-size: 0.9rem; }
-  .chapter-card h3 { font-size: 1.6rem; }
-  .character-detail-copy h2 { font-size: 1.8rem; }
+  .menu-button { min-height: 50px; font-size: 0.88rem; }
+  .chapter-card h3 { font-size: 1.5rem; }
+  .chapters-heading h2 { font-size: 1.9rem; }
+  .character-detail-copy h2 { font-size: 1.7rem; }
+  .character-entry { height: 300px; }
+  .dialogue-box { max-height: 55vh; }
 }
 
 @media (prefers-reduced-motion: reduce) {
