@@ -1620,7 +1620,7 @@ const story = {
         sceneCharacter: "teacher",
         narration: true,
         background: "assets/backgrounds/chapter-2-briefing-2100.png",
-        backgroundPosition: "center center",
+        backgroundPosition: "center 38%",
         backgroundSize: "cover",
         location: "Аудитория Aegis",
         text: "В аудитории остаётся тихий шум, но напряжение уже спадает."
