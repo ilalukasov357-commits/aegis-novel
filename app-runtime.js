@@ -32,6 +32,7 @@ const dialogueText = document.getElementById("dialogue-text");
 const dialogueBox = document.querySelector(".dialogue-box");
 const choiceFeedback = document.getElementById("choice-feedback");
 const nextButton = document.getElementById("next-button");
+const backButton = document.getElementById("back-button");
 const choicesBox = document.getElementById("choices");
 const inGameCharactersButton = document.getElementById("in-game-characters-button");
 const characterIntro = document.getElementById("character-intro");
@@ -80,6 +81,7 @@ const chapterMenuEntries = [
   }
 ];
 let pendingStoryStart = null;
+let stateHistory = [];
 let activeSceneBackground = "";
 let backgroundSwapTimeoutId = null;
 
@@ -215,6 +217,62 @@ function renderTypewriter(element, text) {
       clearTypewriter();
     }
   }, 20);
+}
+
+function saveToHistory() {
+  stateHistory.push({
+    sceneId: state.sceneId,
+    lineIndex: state.lineIndex,
+    questionFeedback: state.questionFeedback ? [...state.questionFeedback] : null,
+    questionFeedbackType: state.questionFeedbackType,
+    selectedAnswerIndex: state.selectedAnswerIndex,
+    lockedQuestion: state.lockedQuestion,
+    testAnswers: state.testAnswers ? [...state.testAnswers] : [],
+    testCompleted: state.testCompleted,
+    testExpandedIndex: state.testExpandedIndex,
+    incidentGameStep: state.incidentGameStep,
+    incidentGameThreat: state.incidentGameThreat,
+    incidentGameCorrect: state.incidentGameCorrect,
+    incidentGameSelected: state.incidentGameSelected,
+    incidentGameFeedback: state.incidentGameFeedback ? [...state.incidentGameFeedback] : null,
+    incidentGameFeedbackType: state.incidentGameFeedbackType,
+    incidentGameLocked: state.incidentGameLocked,
+    incidentGameCompleted: state.incidentGameCompleted
+  });
+
+  if (stateHistory.length > 50) {
+    stateHistory.shift();
+  }
+}
+
+function goBack() {
+  if (stateHistory.length === 0) {
+    return;
+  }
+
+  clearTypewriter();
+
+  const prevState = stateHistory.pop();
+
+  state.sceneId = prevState.sceneId;
+  state.lineIndex = prevState.lineIndex;
+  state.questionFeedback = prevState.questionFeedback;
+  state.questionFeedbackType = prevState.questionFeedbackType;
+  state.selectedAnswerIndex = prevState.selectedAnswerIndex;
+  state.lockedQuestion = prevState.lockedQuestion;
+  state.testAnswers = prevState.testAnswers;
+  state.testCompleted = prevState.testCompleted;
+  state.testExpandedIndex = prevState.testExpandedIndex;
+  state.incidentGameStep = prevState.incidentGameStep;
+  state.incidentGameThreat = prevState.incidentGameThreat;
+  state.incidentGameCorrect = prevState.incidentGameCorrect;
+  state.incidentGameSelected = prevState.incidentGameSelected;
+  state.incidentGameFeedback = prevState.incidentGameFeedback;
+  state.incidentGameFeedbackType = prevState.incidentGameFeedbackType;
+  state.incidentGameLocked = prevState.incidentGameLocked;
+  state.incidentGameCompleted = prevState.incidentGameCompleted;
+
+  renderScene();
 }
 
 function updateStartButtonLabel() {
@@ -433,6 +491,7 @@ function initializeParallax(container, layers) {
 }
 
 function resetStateToStart() {
+  stateHistory = [];
   state.sceneId = INITIAL_SCENE_ID;
   state.lineIndex = 0;
   state.questionFeedback = null;
@@ -467,6 +526,7 @@ function showMenu() {
 }
 
 function beginStory(sceneId, lineIndex = 0, subtitle) {
+  stateHistory = [];
   state.sceneId = sceneId;
   state.lineIndex = lineIndex;
   state.questionFeedback = null;
@@ -620,7 +680,7 @@ function renderScene() {
 
   chapterLabel.textContent = scene.chapter;
   sceneCaption.textContent = sceneVisualState.location;
-  speakerName.textContent = isNarration ? "Сцена" : speaker.name;
+  speakerName.textContent = isNarration ? "" : speaker.name;
   
   const fullText = line.type === "question" ? line.prompt : (line.text || "");
   
@@ -749,6 +809,7 @@ function renderScene() {
             return;
           }
 
+          saveToHistory();
           setScene(choice.next);
         });
         choicesBox.appendChild(button);
@@ -760,6 +821,12 @@ function renderScene() {
 
   saveStoryProgress();
   updateStartButtonLabel();
+
+  if (stateHistory.length > 0) {
+    backButton.classList.remove("hidden");
+  } else {
+    backButton.classList.add("hidden");
+  }
 }
 
 function renderStoryPopup(line) {
@@ -907,6 +974,8 @@ function handleIncidentGameAnswer(line, optionIndex) {
     return;
   }
 
+  saveToHistory();
+
   const question = line.questions[state.incidentGameStep];
   const isCorrect = optionIndex === question.correctAnswer;
   const correctThreatDelta = Number.isFinite(question.correctThreatDelta) ? Number(question.correctThreatDelta) : -14;
@@ -933,6 +1002,8 @@ function continueIncidentGame() {
   const line = scene.lines[state.lineIndex];
   const totalSteps = line.questions.length;
 
+  saveToHistory();
+
   if (state.incidentGameStep >= totalSteps - 1) {
     state.incidentGameCompleted = true;
     state.incidentGameLocked = false;
@@ -958,6 +1029,8 @@ function advanceAfterIncidentGame() {
     ? Number(line.threatBranchThreshold)
     : 50;
   const failNext = typeof line?.failNext === "string" ? line.failNext : null;
+
+  saveToHistory();
 
   if (failNext && state.incidentGameThreat > threshold && story[failNext]) {
     setScene(failNext);
@@ -1037,6 +1110,7 @@ function renderTestPanel(line) {
     });
 
     testPanel.querySelector("#test-finish-button").addEventListener("click", () => {
+      saveToHistory();
       state.testCompleted = true;
       state.testExpandedIndex = 0;
       renderScene();
@@ -1153,6 +1227,8 @@ function advanceAfterTest() {
     return;
   }
 
+  saveToHistory();
+
   state.lineIndex += 1;
   state.testAnswers = [];
   state.testCompleted = false;
@@ -1167,6 +1243,8 @@ function handleQuestionAnswer(selectedIndex) {
   if (state.lockedQuestion) {
     return;
   }
+
+  saveToHistory();
 
   state.selectedAnswerIndex = selectedIndex;
 
@@ -1189,6 +1267,8 @@ function nextLine() {
     state.typewriterFinishHandler();
     return;
   }
+
+  saveToHistory();
 
   const scene = story[state.sceneId];
   const line = scene.lines[state.lineIndex];
@@ -1415,6 +1495,7 @@ backToMenuButton.addEventListener("click", () => {
 });
 exitButton.addEventListener("click", handleExit);
 nextButton.addEventListener("click", nextLine);
+backButton.addEventListener("click", goBack);
 
 chaptersOverlay.addEventListener("click", (event) => {
   if (event.target === chaptersOverlay) {

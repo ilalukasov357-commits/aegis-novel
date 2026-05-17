@@ -52,7 +52,13 @@
             <div class="hud-chip">Institute Aegis <span class="hud-status">// SECURE</span></div>
             <div class="chapter-label" id="chapter-label">Пролог</div>
           </div>
-          <button class="secondary-button" id="pause-button">Пауза</button>
+          <button class="secondary-button pause-icon-btn" id="pause-button" aria-label="Пауза">
+            <svg class="pause-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="12" x2="20" y2="12"></line>
+              <line x1="4" y1="6" x2="20" y2="6"></line>
+              <line x1="4" y1="18" x2="20" y2="18"></line>
+            </svg>
+          </button>
         </header>
 
         <section class="scene-stage">
@@ -89,6 +95,7 @@
             <div class="choices hidden" id="choices"></div>
 
             <div class="controls">
+              <button class="secondary-button back-btn hidden" id="back-button">Назад</button>
               <button class="primary-button" id="next-button">Далее</button>
             </div>
           </section>
