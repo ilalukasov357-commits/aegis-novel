@@ -1,4 +1,4 @@
-const characters = {
+﻿const characters = {
   hero: {
     id: "hero",
     name: "Егор Громов",
@@ -51,7 +51,7 @@ const characters = {
   kiraMorgan: {
     id: "kiraMorgan",
     name: "Кира Морган",
-    role: "Курсант, социальная инженерия",
+    role: "Курсант, интернет-мошенничество",
     portrait: "assets/characters/kira-morgan.png",
     bio: "Читает людей так же уверенно, как другие читают код. Самая опасная улыбка во всей академии."
   },
@@ -785,12 +785,12 @@ const story = {
         speaker: "hero",
         sceneCharacter: "hero",
         unlock: "hero",
-        text: "Поздно уже…"
+        text: "«Поздно уже…»", isThought: true
       },
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Надо было закончить раньше."
+        text: "«Надо было закончить раньше.»", isThought: true
       },
       {
         speaker: "narrator",
@@ -801,7 +801,7 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Хотя… ещё немного."
+        text: "«Хотя… ещё немного.»", isThought: true
       },
       {
         speaker: "narrator",
@@ -818,7 +818,7 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Хм?"
+        text: "«Хм?»", isThought: true
       },
       {
         speaker: "narrator",
@@ -829,12 +829,12 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Письмо?"
+        text: "«Письмо?»", isThought: true
       },
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Я ничего не ждал."
+        text: "«Я ничего не ждал.»", isThought: true
       },
       {
         speaker: "narrator",
@@ -850,7 +850,7 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Никогда о таком не слышал."
+        text: "«Никогда о таком не слышал.»", isThought: true
       },
       {
         speaker: "narrator",
@@ -861,7 +861,7 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Может, спам…"
+        text: "«Может, спам…»", isThought: true
       },
       {
         speaker: "narrator",
@@ -877,7 +877,7 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Сначала проверю отправителя."
+        text: "«Сначала проверю отправителя.»", isThought: true
       },
       {
         type: "question",
@@ -906,12 +906,12 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Адрес странный…"
+        text: "«Адрес странный…»", isThought: true
       },
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Не похож на официальный."
+        text: "«Не похож на официальный.»", isThought: true
       },
       {
         speaker: "narrator",
@@ -922,17 +922,17 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Но письмо выглядит слишком… аккуратно."
+        text: "«Но письмо выглядит слишком… аккуратно.»", isThought: true
       },
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Без ошибок."
+        text: "«Без ошибок.»", isThought: true
       },
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Без давления."
+        text: "«Без давления.»", isThought: true
       },
       {
         speaker: "narrator",
@@ -943,7 +943,7 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Ладно."
+        text: "«Ладно.»", isThought: true
       },
       {
         speaker: "hero",
@@ -1016,7 +1016,7 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Похоже на настоящее приглашение."
+        text: "«Похоже на настоящее приглашение.»", isThought: true
       },
       {
         speaker: "narrator",
@@ -1027,12 +1027,12 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Тут есть ссылка…"
+        text: "«Тут есть ссылка…»", isThought: true
       },
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Но переходить так — плохая идея."
+        text: "«Но переходить так — плохая идея.»", isThought: true
       },
       {
         speaker: "narrator",
@@ -1043,7 +1043,7 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Попробую найти вручную."
+        text: "«Попробую найти вручную.»", isThought: true
       },
       {
         type: "question",
@@ -1072,12 +1072,12 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Есть сайт…"
+        text: "«Есть сайт…»", isThought: true
       },
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Выглядит серьёзно."
+        text: "«Выглядит серьёзно.»", isThought: true
       },
       {
         speaker: "hero",
@@ -1109,12 +1109,12 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Они ищут новичков…"
+        text: "«Они ищут новичков…»", isThought: true
       },
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "С аналитическим мышлением."
+        text: "«С аналитическим мышлением.»", isThought: true
       },
       {
         speaker: "narrator",
@@ -1125,7 +1125,7 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Похоже на меня."
+        text: "«Похоже на меня.»", isThought: true
       },
       {
         speaker: "narrator",
@@ -1136,12 +1136,12 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Ладно."
+        text: "«Ладно.»", isThought: true
       },
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Попробую."
+        text: "«Попробую.»", isThought: true
       },
       {
         speaker: "narrator",
@@ -1234,7 +1234,7 @@ const story = {
         speaker: "hero",
         sceneCharacter: "hero",
         unlock: "hero",
-        text: "(про себя) Здесь всё выглядит так, будто ошибка просто не предусмотрена."
+        text: "«Здесь всё выглядит так, будто ошибка просто не предусмотрена.»", isThought: true
       },
       {
         speaker: "kiraMorgan",
@@ -1534,8 +1534,8 @@ const story = {
             explanation: "Повторное использование паролей делает все аккаунты уязвимыми."
           },
           {
-            prompt: "Вам просят сообщить код подтверждения. Что это?",
-            options: ["Проверка", "Социальная инженерия", "Ошибка"],
+            prompt: "Вас просят сообщить код подтверждения. Что это?",
+            options: ["Проверка", "интернет-мошенничество", "Ошибка"],
             correctAnswer: 1,
             explanation: "Коды подтверждения нельзя передавать — это попытка получить доступ."
           }
@@ -1590,7 +1590,7 @@ const story = {
       {
         speaker: "hero",
         sceneCharacter: "hero",
-        text: "Я знаю меньше, чем думал."
+        text: "«Я знаю меньше, чем думал.»", isThought: true
       },
       {
         speaker: "narrator",

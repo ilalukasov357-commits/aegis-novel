@@ -1,4 +1,4 @@
-const characters = {
+﻿const characters = {
   narrator: {
     name: "Система Aegis",
     role: "Протокол наблюдения",
@@ -21,7 +21,7 @@ const characters = {
   },
   kiraMorgan: {
     name: "Кира Морган",
-    role: "Курсант, социальная инженерия",
+    role: "Курсант, интернет-мошенничество",
     portrait: "assets/characters/kira-morgan.png"
   }
 };

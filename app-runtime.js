@@ -2,7 +2,7 @@ const STORAGE_KEY = "aegis-protocol-unlocked";
 const PROGRESS_KEY = "aegis-protocol-progress";
 const DISCLAIMER_KEY = "aegis-protocol-disclaimer-seen";
 const INITIAL_SCENE_ID = "robert-brief";
-const INTRO_REVEAL_DURATION = 2600;
+const INTRO_REVEAL_DURATION = 5000;
 const SCREEN_LEAVE_DURATION = 260;
 const SCREEN_ENTER_DURATION = 520;
 const OVERLAY_TRANSITION_DURATION = 320;
@@ -623,6 +623,8 @@ function renderScene() {
   speakerName.textContent = isNarration ? "Сцена" : speaker.name;
   
   const fullText = line.type === "question" ? line.prompt : (line.text || "");
+  
+  dialogueText.classList.toggle("is-thought", !!line.isThought);
   
   if (line.type === "question" && state.questionFeedbackType !== null) {
     clearTypewriter();
